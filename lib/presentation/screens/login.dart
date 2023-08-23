@@ -35,8 +35,8 @@ class _LoginState extends State<Login> {
     setState(() {
       hasEmail = email;
       hasPassword = password;
-      /* nameController.text = email;
-      passController.text = password; */
+      nameController.text = email;
+      passController.text = password;
     });
   }
 
@@ -167,7 +167,7 @@ class _LoginState extends State<Login> {
                           Navigator.pushReplacementNamed(
                               context, RouteList.check);
                         } else {
-                          print('Credenciales falsas');
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }),
                   Padding(
@@ -229,14 +229,16 @@ class _LoginState extends State<Login> {
                           width: 5,
                         ),
                         GestureDetector(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const SignUp();
-                              },
-                            ),
-                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const SignUp();
+                                },
+                              ),
+                            );
+                          },
                           child: Text(
                             'Registrate',
                             style: TextStyle(
@@ -255,4 +257,14 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  final snackBar = SnackBar(
+    backgroundColor: Colors.red,
+    content: const Text('Email or Password Incorrect'),
+    action: SnackBarAction(
+      textColor: Colors.white,
+      label: 'Close',
+      onPressed: () {},
+    ),
+  );
 }

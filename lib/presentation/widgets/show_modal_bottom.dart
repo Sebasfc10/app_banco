@@ -1,8 +1,11 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:app_banca/config/config.dart';
 import 'package:app_banca/presentation/widgets/button_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../cubit/loan_calculator_cubit.dart';
 
@@ -16,11 +19,18 @@ class ShowModalBottom extends StatefulWidget {
 class _ShowModalBottomState extends State<ShowModalBottom> {
   @override
   Widget build(BuildContext context) {
+    NumberFormat currencyFormatter =
+        NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0);
     final cubit = context.read<LoanCalculatorCubit>();
     final interes = cubit.state.tasaInteres * cubit.state.montoMaximo;
     final total = cubit.state.valorCuota - interes;
     final interesPorcentual = (cubit.state.tasaInteres * 10);
     final interesAnual = (interesPorcentual * 12).toStringAsFixed(1);
+    String newMontoMAx =
+        '\$${currencyFormatter.format(cubit.state.montoMaximo)}';
+    String newTotal = '\$${currencyFormatter.format(total)}';
+    String newVC = '\$${currencyFormatter.format(cubit.state.valorCuota)}';
+    //String newIA = '\$${currencyFormatter.format(interesAnual)}';
     return BlocBuilder<LoanCalculatorCubit, LoanCalculatorState>(
       builder: (context, state) {
         return DraggableScrollableSheet(
@@ -56,7 +66,8 @@ class _ShowModalBottomState extends State<ShowModalBottom> {
                     Row(
                       children: [
                         Text(
-                          '\$${cubit.state.valorCuota.toStringAsFixed(0)}',
+                          newVC,
+                          //'\$${cubit.state.valorCuota.toStringAsFixed(0)}',
                           style: TextStyle(
                               color: Color(0xff000000),
                               fontFamily: 'Poppins',
@@ -131,8 +142,8 @@ class _ShowModalBottomState extends State<ShowModalBottom> {
                                     color: Color(0xff525B64),
                                     fontFamily: 'Poppins',
                                     fontSize: 18)),
-                            Text(
-                                '${cubit.state.montoMaximo.toStringAsFixed(2)}',
+                            Text(newMontoMAx,
+                                //'${cubit.state.montoMaximo.toStringAsFixed(2)}',
                                 style: TextStyle(
                                     color: Color(0xff000000),
                                     fontFamily: 'Poppins',
@@ -155,7 +166,7 @@ class _ShowModalBottomState extends State<ShowModalBottom> {
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16)),
-                            Text('${(total).toStringAsFixed(2)}')
+                            Text(newTotal)
                           ]),
                     ),
                     Padding(

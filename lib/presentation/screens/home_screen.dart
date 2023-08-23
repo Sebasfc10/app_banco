@@ -6,6 +6,7 @@ import 'package:app_banca/presentation/widgets/textfield_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
     String name = prefs.getString('name') ?? '';
     setState(() {
       welcomeName = name;
-      //name = welcomeName;
     });
   }
 
@@ -44,8 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    NumberFormat currencyFormatter =
+        NumberFormat.currency(locale: 'es_CO', symbol: '', decimalDigits: 0);
     final cubit = context.read<LoanCalculatorCubit>();
     loanController.text = cubit.state.montoMaximo.toStringAsFixed(2);
+    /*   String newCredit = '\$${currencyFormatter.format(creditController)}'; */
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
